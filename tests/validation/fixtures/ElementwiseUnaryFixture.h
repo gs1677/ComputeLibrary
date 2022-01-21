@@ -42,7 +42,7 @@ namespace validation
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class ElementWiseUnaryValidationFixture : public framework::Fixture
 {
-public:
+    public:
     template <typename...>
     void setup(TensorShape input_shape, DataType input_data_type, bool in_place, ElementWiseUnary op, bool use_dynamic_shape = false)
     {
@@ -52,11 +52,11 @@ public:
         _use_dynamic_shape = use_dynamic_shape;
     }
 
-protected:
+    protected:
     template <typename U>
     void fill(U &&tensor, int i, DataType data_type)
     {
-        using FloatType             = typename std::conditional < std::is_same<T, half>::value || std::is_floating_point<T>::value, T, float >::type;
+        using FloatType             = typename std::conditional<std::is_same<T, half>::value || std::is_floating_point<T>::value, T, float>::type;
         using FloatDistributionType = typename std::conditional<std::is_same<T, half>::value, arm_compute::utils::uniform_real_distribution_16bit<T>, std::uniform_real_distribution<FloatType>>::type;
 
         switch(_op)
@@ -108,6 +108,12 @@ protected:
                 break;
             }
             case ElementWiseUnary::SIN:
+            {
+                FloatDistributionType distribution{ FloatType(-100.00f), FloatType(100.00f) };
+                library->fill(tensor, distribution, i);
+                break;
+            }
+            case ElementWiseUnary::COS:
             {
                 FloatDistributionType distribution{ FloatType(-100.00f), FloatType(100.00f) };
                 library->fill(tensor, distribution, i);
@@ -196,7 +202,7 @@ protected:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class RsqrtValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -207,7 +213,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class RsqrtDynamicShapeValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -218,7 +224,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class ExpValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -229,7 +235,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class NegValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -240,7 +246,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class NegValidationInPlaceFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type, bool in_place)
     {
@@ -251,7 +257,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class LogValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -262,7 +268,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class AbsValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -273,7 +279,7 @@ public:
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class SinValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {
@@ -282,9 +288,20 @@ public:
 };
 
 template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
+class CosValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
+{
+    public:
+    template <typename...>
+    void setup(const TensorShape &shape, DataType data_type)
+    {
+        ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>::setup(shape, data_type, false, ElementWiseUnary::COS);
+    }
+};
+
+template <typename TensorType, typename AccessorType, typename FunctionType, typename T>
 class RoundValidationFixture : public ElementWiseUnaryValidationFixture<TensorType, AccessorType, FunctionType, T>
 {
-public:
+    public:
     template <typename...>
     void setup(const TensorShape &shape, DataType data_type)
     {

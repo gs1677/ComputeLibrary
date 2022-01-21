@@ -103,6 +103,9 @@ void ClElementWiseUnaryKernel::configure(const CLCompileContext &compile_context
         case ElementWiseUnary::SIN:
             build_opts.add_option("-DOPERATION=sin_op");
             break;
+        case ElementWiseUnary::COS:
+            build_opts.add_option("-DOPERATION=cos_op");
+            break;
         case ElementWiseUnary::ABS:
             build_opts.add_option("-DOPERATION=fabs_op");
             break;
@@ -160,8 +163,7 @@ void ClElementWiseUnaryKernel::run_op(ITensorPack &tensors, const Window &window
         add_3D_tensor_argument(idx, src, slice);
         add_3D_tensor_argument(idx, dst, slice);
         enqueue(queue, *this, slice, lws_hint());
-    }
-    while(collapsed.slide_window_slice_3D(slice));
+    } while(collapsed.slide_window_slice_3D(slice));
 }
 } // namespace kernels
 } // namespace opencl

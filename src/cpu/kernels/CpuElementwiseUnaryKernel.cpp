@@ -52,50 +52,50 @@ using ElementwiseUnarySelector = std::add_pointer<bool(const ElementwiseUnarySel
 
 struct ElementwiseUnaryKernel
 {
-    const char                                           *name;
+    const char *                                          name;
     const ElementwiseUnarySelector                        is_selected;
     CpuElementwiseUnaryKernel::ElementwiseUnaryUkernelPtr ukernel;
 };
 
 static const ElementwiseUnaryKernel available_kernels[] =
-{
+    {
 #if defined(ARM_COMPUTE_ENABLE_SVE)
-    {
-        "sve_fp32_elementwise_unary",
-        [](const ElementwiseUnarySelectorData & data) { return data.dt == DataType::F32 && data.ci.has_sve(); },
-        REGISTER_FP32_SVE(arm_compute::cpu::elementwise_sve_op<float>),
-    },
-    {
-        "sve_fp16_elementwise_unary",
-        [](const ElementwiseUnarySelectorData & data) { return data.dt == DataType::F16 && data.ci.has_sve(); },
-        REGISTER_FP16_SVE(arm_compute::cpu::elementwise_sve_op<__fp16>),
-    },
-    {
-        "sve_s32_elementwise_unary",
-        [](const ElementwiseUnarySelectorData & data) { return data.dt == DataType::S32 && data.ci.has_sve(); },
-        REGISTER_INTEGER_SVE(arm_compute::cpu::elementwise_sve_op<int32_t>),
-    },
+        {
+            "sve_fp32_elementwise_unary",
+            [](const ElementwiseUnarySelectorData &data) { return data.dt == DataType::F32 && data.ci.has_sve(); },
+            REGISTER_FP32_SVE(arm_compute::cpu::elementwise_sve_op<float>),
+        },
+        {
+            "sve_fp16_elementwise_unary",
+            [](const ElementwiseUnarySelectorData &data) { return data.dt == DataType::F16 && data.ci.has_sve(); },
+            REGISTER_FP16_SVE(arm_compute::cpu::elementwise_sve_op<__fp16>),
+        },
+        {
+            "sve_s32_elementwise_unary",
+            [](const ElementwiseUnarySelectorData &data) { return data.dt == DataType::S32 && data.ci.has_sve(); },
+            REGISTER_INTEGER_SVE(arm_compute::cpu::elementwise_sve_op<int32_t>),
+        },
 #endif // defined(ARM_COMPUTE_ENABLE_SVE)
 #if defined(ARM_COMPUTE_ENABLE_NEON)
-    {
-        "neon_fp32_elementwise_unary",
-        [](const ElementwiseUnarySelectorData & data) { return data.dt == DataType::F32; },
-        REGISTER_FP32_NEON(arm_compute::cpu::elementwise_op<float>),
-    },
+        {
+            "neon_fp32_elementwise_unary",
+            [](const ElementwiseUnarySelectorData &data) { return data.dt == DataType::F32; },
+            REGISTER_FP32_NEON(arm_compute::cpu::elementwise_op<float>),
+        },
 #if defined(__ARM_FEATURE_FP16_VECTOR_ARITHMETIC)
-    {
-        "neon_fp16_elementwise_unary",
-        [](const ElementwiseUnarySelectorData & data) { return data.dt == DataType::F16 && data.ci.has_fp16(); },
-        REGISTER_FP32_NEON(arm_compute::cpu::elementwise_op<__fp16>),
-    },
+        {
+            "neon_fp16_elementwise_unary",
+            [](const ElementwiseUnarySelectorData &data) { return data.dt == DataType::F16 && data.ci.has_fp16(); },
+            REGISTER_FP32_NEON(arm_compute::cpu::elementwise_op<__fp16>),
+        },
 #endif // defined(__ARM_FEATURE_FP16_VECTOR_ARITHMETIC)
-    {
-        "neon_s32_elementwise_unary",
-        [](const ElementwiseUnarySelectorData & data) { return data.dt == DataType::S32; },
-        REGISTER_INTEGER_NEON(arm_compute::cpu::elementwise_op<int32_t>),
-    },
+        {
+            "neon_s32_elementwise_unary",
+            [](const ElementwiseUnarySelectorData &data) { return data.dt == DataType::S32; },
+            REGISTER_INTEGER_NEON(arm_compute::cpu::elementwise_op<int32_t>),
+        },
 #endif // defined(ARM_COMPUTE_ENABLE_NEON)
-};
+    };
 
 const ElementwiseUnaryKernel *get_implementation(DataType dt)
 {
@@ -145,6 +145,7 @@ Status CpuElementwiseUnaryKernel::validate(ElementWiseUnary op, const ITensorInf
         case ElementWiseUnary::LOG:
         case ElementWiseUnary::ROUND:
         case ElementWiseUnary::SIN:
+        case ElementWiseUnary::COS:
             ARM_COMPUTE_RETURN_ERROR_ON_DATA_TYPE_CHANNEL_NOT_IN(&src, 1, DataType::F16, DataType::F32);
             break;
         case ElementWiseUnary::NEG:

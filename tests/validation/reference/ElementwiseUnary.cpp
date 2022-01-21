@@ -58,6 +58,9 @@ SimpleTensor<T> elementwise_unary(const SimpleTensor<T> &src, ElementWiseUnary o
             case ElementWiseUnary::SIN:
                 dst[i] = std::sin(src[i]);
                 break;
+            case ElementWiseUnary::COS:
+                dst[i] = std::cos(src[i]);
+                break;
             case ElementWiseUnary::ROUND:
                 dst[i] = arm_compute::support::cpp11::nearbyint(src[i]);
                 break;

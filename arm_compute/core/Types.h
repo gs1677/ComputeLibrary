@@ -271,18 +271,18 @@ struct BorderSize
     /** Empty border, i.e. no border */
     constexpr BorderSize() noexcept
         : top{ 0 },
-    right{ 0 },
-    bottom{ 0 },
-    left{ 0 }
+          right{ 0 },
+          bottom{ 0 },
+          left{ 0 }
     {
     }
 
     /** Border with equal size around the 2D plane */
     explicit constexpr BorderSize(unsigned int size) noexcept
         : top{ size },
-    right{ size },
-    bottom{ size },
-    left{ size }
+          right{ size },
+          bottom{ size },
+          left{ size }
     {
     }
 
@@ -494,6 +494,7 @@ enum class ElementWiseUnary
     LOG,         /**< Natural Logarithm */
     ABS,         /**< Absolute value */
     SIN,         /**< Sine */
+    COS,         /**< Cosine */
     ROUND,       /**< Round */
     LOGICAL_NOT, /**< Logical Not */
 };
@@ -559,7 +560,7 @@ enum class NMSType
 /** BoxWithNonMaximaSuppressionLimit Information class */
 class BoxNMSLimitInfo final
 {
-public:
+    public:
     /** Constructor
      *
      * @param[in] score_thresh             (Optional) Score threshold.
@@ -578,8 +579,7 @@ public:
                     int detections = 100, bool soft_nms_enabled = false,
                     NMSType soft_nms_method = NMSType::LINEAR,
                     float soft_nms_sigma = 0.5f, float soft_nms_min_score_thres = 0.001f, bool suppress_size = false, float min_size = 1.0f, float im_width = 1.0f, float im_height = 1.0f)
-        : _score_thresh(score_thresh), _nms(nms), _detections_per_im(detections), _soft_nms_enabled(soft_nms_enabled), _soft_nms_method(soft_nms_method), _soft_nms_sigma(soft_nms_sigma),
-          _soft_nms_min_score_thres(soft_nms_min_score_thres), _suppress_size(suppress_size), _min_size(min_size), _im_width(im_width), _im_height(im_height)
+        : _score_thresh(score_thresh), _nms(nms), _detections_per_im(detections), _soft_nms_enabled(soft_nms_enabled), _soft_nms_method(soft_nms_method), _soft_nms_sigma(soft_nms_sigma), _soft_nms_min_score_thres(soft_nms_min_score_thres), _suppress_size(suppress_size), _min_size(min_size), _im_width(im_width), _im_height(im_height)
     {
     }
     /** Get the score threshold */
@@ -638,7 +638,7 @@ public:
         return _im_height;
     }
 
-private:
+    private:
     float   _score_thresh;
     float   _nms;
     int     _detections_per_im;
@@ -655,7 +655,7 @@ private:
 /** Padding and stride information class */
 class PadStrideInfo
 {
-public:
+    public:
     /** Constructor
      *
      * @param[in] stride_x (Optional) Stride, in elements, across x. Defaults to 1.
@@ -759,12 +759,12 @@ public:
         return (_pad_left != 0 || _pad_top != 0 || _pad_right != 0 || _pad_bottom != 0);
     }
 
-private:
+    private:
     std::pair<unsigned int, unsigned int> _stride;
-    unsigned int _pad_left;
-    unsigned int _pad_top;
-    unsigned int _pad_right;
-    unsigned int _pad_bottom;
+    unsigned int                          _pad_left;
+    unsigned int                          _pad_top;
+    unsigned int                          _pad_right;
+    unsigned int                          _pad_bottom;
 
     DimensionRoundingType _round_type;
 };
@@ -797,7 +797,7 @@ struct Padding3D
 /** PriorBox layer info */
 class PriorBoxLayerInfo final
 {
-public:
+    public:
     /** Default Constructor */
     PriorBoxLayerInfo()
         : _min_sizes(),
@@ -825,7 +825,7 @@ public:
      */
     PriorBoxLayerInfo(const std::vector<float> &min_sizes, const std::vector<float> &variances, float offset, bool flip = true, bool clip = false,
                       const std::vector<float> &max_sizes = {}, const std::vector<float> &aspect_ratios = {},
-    const Coordinates2D &img_size = Coordinates2D{ 0, 0 }, const std::array<float, 2> &steps = { { 0.f, 0.f } })
+                      const Coordinates2D &img_size = Coordinates2D{ 0, 0 }, const std::array<float, 2> &steps = { { 0.f, 0.f } })
         : _min_sizes(min_sizes),
           _variances(variances),
           _offset(offset),
@@ -905,15 +905,15 @@ public:
         return _aspect_ratios;
     }
 
-private:
-    std::vector<float> _min_sizes;
-    std::vector<float> _variances;
-    float              _offset;
-    bool               _flip;
-    bool               _clip;
-    std::vector<float> _max_sizes;
-    std::vector<float> _aspect_ratios;
-    Coordinates2D      _img_size;
+    private:
+    std::vector<float>   _min_sizes;
+    std::vector<float>   _variances;
+    float                _offset;
+    bool                 _flip;
+    bool                 _clip;
+    std::vector<float>   _max_sizes;
+    std::vector<float>   _aspect_ratios;
+    Coordinates2D        _img_size;
     std::array<float, 2> _steps;
 };
 
@@ -934,7 +934,7 @@ enum class DetectionOutputLayerCodeType
 /** Detection Output layer info */
 class DetectionOutputLayerInfo final
 {
-public:
+    public:
     /** Default Constructor */
     DetectionOutputLayerInfo()
         : _num_classes(),
@@ -1036,7 +1036,7 @@ public:
         return _num_loc_classes;
     }
 
-private:
+    private:
     int                          _num_classes;
     bool                         _share_location;
     DetectionOutputLayerCodeType _code_type;
@@ -1053,7 +1053,7 @@ private:
 /** Detection Output layer info */
 class DetectionPostProcessLayerInfo final
 {
-public:
+    public:
     /** Default Constructor */
     DetectionPostProcessLayerInfo()
         : _max_detections(),
@@ -1157,16 +1157,16 @@ public:
         return _dequantize_scores;
     }
 
-private:
-    unsigned int _max_detections;
-    unsigned int _max_classes_per_detection;
-    float        _nms_score_threshold;
-    float        _iou_threshold;
-    unsigned int _num_classes;
+    private:
+    unsigned int         _max_detections;
+    unsigned int         _max_classes_per_detection;
+    float                _nms_score_threshold;
+    float                _iou_threshold;
+    unsigned int         _num_classes;
     std::array<float, 4> _scales_values;
-    bool         _use_regular_nms;
-    unsigned int _detection_per_class;
-    bool         _dequantize_scores;
+    bool                 _use_regular_nms;
+    unsigned int         _detection_per_class;
+    bool                 _dequantize_scores;
 };
 
 /** Pooling Layer Information struct*/
@@ -1267,7 +1267,7 @@ struct PoolingLayerInfo
 /** ROI Pooling Layer Information class */
 class ROIPoolingLayerInfo final
 {
-public:
+    public:
     /** Constructor
      *
      * @param[in] pooled_width   Pooled width of the layer.
@@ -1300,7 +1300,7 @@ public:
         return _sampling_ratio;
     }
 
-private:
+    private:
     unsigned int _pooled_width;
     unsigned int _pooled_height;
     float        _spatial_scale;
@@ -1310,7 +1310,7 @@ private:
 /** Generate Proposals Information class */
 class GenerateProposalsInfo
 {
-public:
+    public:
     /** Constructor
      *
      * @param[in] im_width       Width of the original image
@@ -1325,8 +1325,7 @@ public:
      */
     GenerateProposalsInfo(float im_width, float im_height, float im_scale, float spatial_scale = 1.0, int pre_nms_topN = 6000, int post_nms_topN = 300, float nms_thres = 0.7, float min_size = 16.0,
                           size_t values_per_roi = 4)
-        : _im_height(im_height), _im_width(im_width), _im_scale(im_scale), _spatial_scale(spatial_scale), _pre_nms_topN(pre_nms_topN), _post_nms_topN(post_nms_topN), _nms_thres(nms_thres),
-          _min_size(min_size), _values_per_roi(values_per_roi)
+        : _im_height(im_height), _im_width(im_width), _im_scale(im_scale), _spatial_scale(spatial_scale), _pre_nms_topN(pre_nms_topN), _post_nms_topN(post_nms_topN), _nms_thres(nms_thres), _min_size(min_size), _values_per_roi(values_per_roi)
     {
     }
 
@@ -1376,7 +1375,7 @@ public:
         return _values_per_roi;
     }
 
-private:
+    private:
     float  _im_height;
     float  _im_width;
     float  _im_scale;
@@ -1391,7 +1390,7 @@ private:
 /** ComputeAnchors information class */
 class ComputeAnchorsInfo
 {
-public:
+    public:
     /** Constructor
      *
      * @param[in] feat_width     Feature map width
@@ -1431,7 +1430,7 @@ public:
         return _values_per_roi;
     }
 
-private:
+    private:
     float  _feat_height;
     float  _feat_width;
     float  _spatial_scale;
@@ -1441,7 +1440,7 @@ private:
 /** Bounding Box Transform information class */
 class BoundingBoxTransformInfo final
 {
-public:
+    public:
     /** Constructor
      *
      * @param[in] img_width                Width of the original image
@@ -1452,10 +1451,9 @@ public:
      * @param[in] correct_transform_coords (Optional)Correct bounding box transform coordinates. Defaults to false
      * @param[in] bbox_xform_clip          (Optional)Minimum bounding box width and height after bounding box transformation in log-space. Defaults to log(1000/16)
      */
-    BoundingBoxTransformInfo(float img_width, float img_height, float scale, bool apply_scale = false, const std::array<float, 4> weights = { { 1.f, 1.f, 1.f, 1.f } }, bool correct_transform_coords =
-    false,
-    float bbox_xform_clip =
-        4.135166556742356f)
+    BoundingBoxTransformInfo(float img_width, float img_height, float scale, bool apply_scale = false, const std::array<float, 4> weights = { { 1.f, 1.f, 1.f, 1.f } }, bool correct_transform_coords = false,
+                             float bbox_xform_clip =
+                                 4.135166556742356f)
         : _img_width(img_width), _img_height(img_height), _scale(scale), _apply_scale(apply_scale), _correct_transform_coords(correct_transform_coords), _weights(weights), _bbox_xform_clip(bbox_xform_clip)
     {
     }
@@ -1495,20 +1493,20 @@ public:
         return _correct_transform_coords;
     }
 
-private:
-    float _img_width;
-    float _img_height;
-    float _scale;
-    bool  _apply_scale;
-    bool  _correct_transform_coords;
+    private:
+    float                _img_width;
+    float                _img_height;
+    float                _scale;
+    bool                 _apply_scale;
+    bool                 _correct_transform_coords;
     std::array<float, 4> _weights;
-    float _bbox_xform_clip;
+    float                _bbox_xform_clip;
 };
 
 /** Activation Layer Information class */
 class ActivationLayerInfo
 {
-public:
+    public:
     /** Available activation functions */
     enum class ActivationFunction
     {
@@ -1561,7 +1559,7 @@ public:
         return _enabled;
     }
 
-private:
+    private:
     ActivationFunction _act     = { ActivationLayerInfo::ActivationFunction::IDENTITY };
     float              _a       = {};
     float              _b       = {};
@@ -1609,7 +1607,7 @@ struct FullyConnectedLayerInfo
 /** Normalization Layer Information class */
 class NormalizationLayerInfo
 {
-public:
+    public:
     /** Default Constructor
      *
      * @param[in] type      The normalization type. Can be @ref NormType::IN_MAP_1D, @ref NormType::IN_MAP_2D or @ref NormType::CROSS_MAP
@@ -1677,7 +1675,7 @@ public:
         return (_is_scaled) ? (_alpha / size) : _alpha;
     }
 
-private:
+    private:
     NormType _type;
     uint32_t _norm_size;
     float    _alpha;
@@ -1688,7 +1686,7 @@ private:
 
 class StridedSliceLayerInfo
 {
-public:
+    public:
     /** Default Constructor
      *
      * @param[in] begin_mask       (Optional) If the ith bit of begin_mask is set, starts[i] is ignored and the fullest possible range in that dimension is used instead.
@@ -1718,7 +1716,7 @@ public:
         return _shrink_axis_mask;
     }
 
-private:
+    private:
     int32_t _begin_mask;
     int32_t _end_mask;
     int32_t _shrink_axis_mask;
@@ -1727,7 +1725,7 @@ private:
 /** Convolution Layer Weights Information class. This class stores the necessary information to compute convolution layer when the weights are already reshaped */
 class WeightsInfo
 {
-public:
+    public:
     /** Default constructor */
     WeightsInfo()
         : _are_reshaped(false), _kernel_width(0), _kernel_height(0), _num_kernels(0), _retain_internal_weights(false)
@@ -1774,7 +1772,7 @@ public:
         return _retain_internal_weights;
     }
 
-private:
+    private:
     bool         _are_reshaped;
     unsigned int _kernel_width;
     unsigned int _kernel_height;
@@ -1793,7 +1791,7 @@ private:
  */
 class GEMMReshapeInfo final
 {
-public:
+    public:
     /** Default constructor */
     GEMMReshapeInfo()
         : _m(1), _n(1), _k(1), _mult_transpose1xW_width(1), _mult_interleave4x4_height(1), _depth_output_gemm3d(0), _reinterpret_input_as_3d(false), _broadcast_bias(false)
@@ -1813,8 +1811,7 @@ public:
      * @param[in] broadcast_bias            (Optional) Broadcast the shape of the bias tensor from a vector to a matrix.
      */
     GEMMReshapeInfo(int m, int n, int k, int mult_transpose1xW_width = 1, int mult_interleave4x4_height = 1, int depth_output_gemm3d = 0, bool reinterpret_input_as_3d = false, bool broadcast_bias = false)
-        : _m(m), _n(n), _k(k), _mult_transpose1xW_width(mult_transpose1xW_width), _mult_interleave4x4_height(mult_interleave4x4_height), _depth_output_gemm3d(depth_output_gemm3d),
-          _reinterpret_input_as_3d(reinterpret_input_as_3d), _broadcast_bias(broadcast_bias)
+        : _m(m), _n(n), _k(k), _mult_transpose1xW_width(mult_transpose1xW_width), _mult_interleave4x4_height(mult_interleave4x4_height), _depth_output_gemm3d(depth_output_gemm3d), _reinterpret_input_as_3d(reinterpret_input_as_3d), _broadcast_bias(broadcast_bias)
     {
     }
     /** Number of matrix A rows
@@ -1885,7 +1882,7 @@ public:
         return _broadcast_bias;
     };
 
-private:
+    private:
     int  _m;
     int  _n;
     int  _k;
@@ -1973,7 +1970,7 @@ class ITensorInfo;
  */
 class GEMMInfo
 {
-public:
+    public:
     /** Default constructor */
     GEMMInfo() noexcept
         : _is_a_reshaped(false),
@@ -2173,7 +2170,7 @@ public:
         _post_ops = post_ops;
     }
 
-private:
+    private:
     bool                                    _is_a_reshaped;
     bool                                    _is_b_reshaped;
     bool                                    _reshape_b_only_on_first_run;

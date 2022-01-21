@@ -413,8 +413,7 @@ inline ::std::ostream &operator<<(::std::ostream &os, const GEMMLHSMatrixInfo &g
  */
 inline ::std::ostream &operator<<(::std::ostream &os, const GEMMRHSMatrixInfo &gemm_info)
 {
-    os << "( n0=" << (unsigned int)gemm_info.n0 << " k0=" << gemm_info.k0 << "  h0=" << gemm_info.h0 << "  trans=" << gemm_info.transpose << "  inter=" << gemm_info.interleave << " exp_img=" <<
-       gemm_info.export_to_cl_image << "})";
+    os << "( n0=" << (unsigned int)gemm_info.n0 << " k0=" << gemm_info.k0 << "  h0=" << gemm_info.h0 << "  trans=" << gemm_info.transpose << "  inter=" << gemm_info.interleave << " exp_img=" << gemm_info.export_to_cl_image << "})";
     return os;
 }
 
@@ -467,8 +466,7 @@ inline std::string to_string(const GEMMKernelInfo &gemm_info)
 inline ::std::ostream &operator<<(::std::ostream &os, const BoundingBoxTransformInfo &bbox_info)
 {
     auto weights = bbox_info.weights();
-    os << "(" << bbox_info.img_width() << "x" << bbox_info.img_height() << ")~" << bbox_info.scale() << "(weights={" << weights[0] << ", " << weights[1] << ", " << weights[2] << ", " << weights[3] <<
-       "})";
+    os << "(" << bbox_info.img_width() << "x" << bbox_info.img_height() << ")~" << bbox_info.scale() << "(weights={" << weights[0] << ", " << weights[1] << ", " << weights[2] << ", " << weights[3] << "})";
     return os;
 }
 
@@ -1992,6 +1990,9 @@ inline ::std::ostream &operator<<(::std::ostream &os, const ElementWiseUnary &op
             break;
         case ElementWiseUnary::SIN:
             os << "SIN";
+            break;
+        case ElementWiseUnary::COS:
+            os << "COS";
             break;
         case ElementWiseUnary::ABS:
             os << "ABS";

@@ -83,6 +83,19 @@ Status ClSin::validate(const ITensorInfo *src, const ITensorInfo *dst)
     return kernels::ClElementWiseUnaryKernel::validate(src, dst, ElementWiseUnary::SIN);
 }
 
+void ClCos::configure(const ClCompileContext &compile_context, const ITensorInfo *src, ITensorInfo *dst)
+{
+    ARM_COMPUTE_LOG_PARAMS(src, dst);
+    auto k = std::make_unique<kernels::ClElementWiseUnaryKernel>();
+    k->configure(compile_context, src, dst, ElementWiseUnary::COS);
+    _kernel = std::move(k);
+}
+
+Status ClCos::validate(const ITensorInfo *src, const ITensorInfo *dst)
+{
+    return kernels::ClElementWiseUnaryKernel::validate(src, dst, ElementWiseUnary::COS);
+}
+
 void ClAbs::configure(const ClCompileContext &compile_context, const ITensorInfo *src, ITensorInfo *dst)
 {
     ARM_COMPUTE_LOG_PARAMS(src, dst);

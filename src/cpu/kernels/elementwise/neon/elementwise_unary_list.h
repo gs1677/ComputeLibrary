@@ -50,6 +50,8 @@ inline ScalarType elementwise_op_scalar_imp(ElementWiseUnary op, const ScalarTyp
             return support::cpp11::nearbyint(a);
         case ElementWiseUnary::SIN:
             return std::sin(a);
+        case ElementWiseUnary::COS:
+            return std::cos(a);
         default:
             ARM_COMPUTE_ERROR("NOT_SUPPORTED!");
     }
@@ -92,8 +94,7 @@ void elementwise_op(const ITensor *in, ITensor *out, const Window &window, Eleme
     Iterator input(in, win);
     Iterator output(out, win);
 
-    execute_window_loop(win, [&](const Coordinates &)
-    {
+    execute_window_loop(win, [&](const Coordinates &) {
         auto       output_ptr = reinterpret_cast<ScalarType *>(output.ptr());
         const auto input_ptr  = reinterpret_cast<const ScalarType *>(input.ptr());
 
@@ -107,7 +108,7 @@ void elementwise_op(const ITensor *in, ITensor *out, const Window &window, Eleme
             *(output_ptr + x) = elementwise_op_scalar_imp(op, *(input_ptr + x));
         }
     },
-    input, output);
+                        input, output);
 }
 
 } // namespace cpu

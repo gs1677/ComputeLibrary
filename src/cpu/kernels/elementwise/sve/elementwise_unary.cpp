@@ -86,8 +86,7 @@ void elementwise_sve_op(const ITensor *in, ITensor *out, const Window &window, E
     Iterator input(in, win);
     Iterator output(out, win);
 
-    execute_window_loop(win, [&](const Coordinates &)
-    {
+    execute_window_loop(win, [&](const Coordinates &) {
         auto       output_ptr = reinterpret_cast<ScalarType *>(output.ptr());
         const auto input_ptr  = reinterpret_cast<const ScalarType *>(input.ptr());
         int        x          = window_start_x;
@@ -99,10 +98,9 @@ void elementwise_sve_op(const ITensor *in, ITensor *out, const Window &window, E
             svst1(pg, output_ptr + x, elementwise_op_sve_imp<ScalarType, decltype(vin)>(pg, op, vin));
             x += wrapper::svcnt<ScalarType>();
             pg = wrapper::svwhilelt<ScalarType>(x, window_end_x);
-        }
-        while(svptest_any(all_true_pg, pg));
+        } while(svptest_any(all_true_pg, pg));
     },
-    input, output);
+                        input, output);
 }
 
 template void elementwise_sve_op<float16_t>(const ITensor *in, ITensor *out, const Window &window, ElementWiseUnary op);

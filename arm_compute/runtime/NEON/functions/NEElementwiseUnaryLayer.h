@@ -38,7 +38,7 @@ class ITensorInfo;
 template <ElementWiseUnary op>
 class NEElementwiseUnaryLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     NEElementwiseUnaryLayer();
     /** Default Destructor */
@@ -79,7 +79,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -91,6 +91,7 @@ using NELogLayer   = NEElementwiseUnaryLayer<ElementWiseUnary::LOG>;
 using NEAbsLayer   = NEElementwiseUnaryLayer<ElementWiseUnary::ABS>;
 using NERoundLayer = NEElementwiseUnaryLayer<ElementWiseUnary::ROUND>;
 using NESinLayer   = NEElementwiseUnaryLayer<ElementWiseUnary::SIN>;
+using NECosLayer   = NEElementwiseUnaryLayer<ElementWiseUnary::COS>;
 
 } // namespace arm_compute
 #endif /* ARM_COMPUTE_NEELEMENTWISEUNARYLAYER_H */

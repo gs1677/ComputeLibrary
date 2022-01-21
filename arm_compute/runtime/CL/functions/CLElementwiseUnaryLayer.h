@@ -39,7 +39,7 @@ class ITensorInfo;
 /** Basic function to perform inverse square root on an input tensor. */
 class CLRsqrtLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLRsqrtLayer();
     /** Default Destructor */
@@ -86,7 +86,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -94,7 +94,7 @@ private:
 /** Basic function to perform exponential on an input tensor. */
 class CLExpLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLExpLayer();
     /** Default Destructor */
@@ -141,7 +141,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -149,7 +149,7 @@ private:
 /** Basic function to negate an input tensor. */
 class CLNegLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLNegLayer();
     /** Default Destructor */
@@ -197,7 +197,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -205,7 +205,7 @@ private:
 /** Basic function to calculate sine of an input tensor. */
 class CLSinLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLSinLayer();
     /** Default Destructor */
@@ -252,7 +252,62 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
+    struct Impl;
+    std::unique_ptr<Impl> _impl;
+};
+
+/** Basic function to calculate cosine of an input tensor. */
+class CLCosLayer : public IFunction
+{
+    public:
+    /** Default Constructor */
+    CLCosLayer();
+    /** Default Destructor */
+    ~CLCosLayer();
+    /** Prevent instances of this class from being copied (As this class contains pointers) */
+    CLCosLayer(const CLCosLayer &) = delete;
+    /** Default move constructor */
+    CLCosLayer(CLCosLayer &&);
+    /** Prevent instances of this class from being copied (As this class contains pointers) */
+    CLCosLayer &operator=(const CLCosLayer &) = delete;
+    /** Default move assignment operator */
+    CLCosLayer &operator=(CLCosLayer &&);
+    /** Initialize the function
+     *
+     * Valid data layouts:
+     * - All
+     *
+     * Valid data type configurations:
+     * |src            |dst            |
+     * |:--------------|:--------------|
+     * |F16            |F16            |
+     * |F32            |F32            |
+     *
+     * @param[in]  input  Input tensor. Data types supported: F16/F32.
+     * @param[out] output Output tensor. Data types supported: same as @p input.
+     */
+    void configure(const ICLTensor *input, ICLTensor *output);
+    /** Initialize the function
+     *
+     * @param[in]  compile_context The compile context to be used.
+     * @param[in]  input           Input tensor. Data types supported: F16/F32.
+     * @param[out] output          Output tensor. Data types supported: same as @p input.
+     */
+    void configure(const CLCompileContext &compile_context, const ICLTensor *input, ICLTensor *output);
+    /** Static function to check if given info will lead to a valid configuration of @ref CLCosLayer
+     *
+     * @param[in] input  First tensor input info. Data types supported: F16/F32.
+     * @param[in] output Output tensor info. Data types supported: Same as @p input.
+     *
+     * @return a status
+     */
+    static Status validate(const ITensorInfo *input, const ITensorInfo *output);
+
+    // Inherited methods overridden:
+    void run() override;
+
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -260,7 +315,7 @@ private:
 /** Basic function to perform elementwise log on an input tensor. */
 class CLLogLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLLogLayer();
     /** Default Destructor */
@@ -307,7 +362,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -315,7 +370,7 @@ private:
 /** Basic function to get the absolute value of an input tensor. */
 class CLAbsLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLAbsLayer();
     /** Default Destructor */
@@ -362,7 +417,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };
@@ -370,7 +425,7 @@ private:
 /** Basic function to get the round (to the nearest even) value of an input tensor. */
 class CLRoundLayer : public IFunction
 {
-public:
+    public:
     /** Default Constructor */
     CLRoundLayer();
     /** Default Destructor */
@@ -417,7 +472,7 @@ public:
     // Inherited methods overridden:
     void run() override;
 
-private:
+    private:
     struct Impl;
     std::unique_ptr<Impl> _impl;
 };

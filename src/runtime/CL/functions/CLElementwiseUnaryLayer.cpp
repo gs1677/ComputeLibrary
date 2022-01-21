@@ -32,8 +32,8 @@ namespace arm_compute
 {
 struct CLRsqrtLayer::Impl
 {
-    const ICLTensor                 *src{ nullptr };
-    ICLTensor                       *dst{ nullptr };
+    const ICLTensor *                src{ nullptr };
+    ICLTensor *                      dst{ nullptr };
     std::unique_ptr<opencl::ClRsqrt> op{ nullptr };
 };
 
@@ -74,8 +74,8 @@ void CLRsqrtLayer::run()
 
 struct CLExpLayer::Impl
 {
-    const ICLTensor               *src{ nullptr };
-    ICLTensor                     *dst{ nullptr };
+    const ICLTensor *              src{ nullptr };
+    ICLTensor *                    dst{ nullptr };
     std::unique_ptr<opencl::ClExp> op{ nullptr };
 };
 
@@ -116,8 +116,8 @@ void CLExpLayer::run()
 
 struct CLNegLayer::Impl
 {
-    const ICLTensor               *src{ nullptr };
-    ICLTensor                     *dst{ nullptr };
+    const ICLTensor *              src{ nullptr };
+    ICLTensor *                    dst{ nullptr };
     std::unique_ptr<opencl::ClNeg> op{ nullptr };
 };
 
@@ -157,8 +157,8 @@ void CLNegLayer::run()
 
 struct CLSinLayer::Impl
 {
-    const ICLTensor               *src{ nullptr };
-    ICLTensor                     *dst{ nullptr };
+    const ICLTensor *              src{ nullptr };
+    ICLTensor *                    dst{ nullptr };
     std::unique_ptr<opencl::ClSin> op{ nullptr };
 };
 
@@ -196,10 +196,51 @@ void CLSinLayer::run()
     _impl->op->run(pack);
 }
 
+struct CLCosLayer::Impl
+{
+    const ICLTensor *              src{ nullptr };
+    ICLTensor *                    dst{ nullptr };
+    std::unique_ptr<opencl::ClCos> op{ nullptr };
+};
+
+CLCosLayer::CLCosLayer()
+    : _impl(std::make_unique<Impl>())
+{
+}
+
+CLCosLayer::CLCosLayer(CLCosLayer &&) = default;
+CLCosLayer &CLCosLayer::operator=(CLCosLayer &&) = default;
+CLCosLayer::~CLCosLayer()                        = default;
+
+void CLCosLayer::configure(const ICLTensor *input, ICLTensor *output)
+{
+    configure(CLKernelLibrary::get().get_compile_context(), input, output);
+}
+
+void CLCosLayer::configure(const CLCompileContext &compile_context, const ICLTensor *input, ICLTensor *output)
+{
+    _impl->src = input;
+    _impl->dst = output;
+    _impl->op  = std::make_unique<opencl::ClCos>();
+    _impl->op->configure(compile_context, input->info(), output->info());
+}
+Status CLCosLayer::validate(const ITensorInfo *input, const ITensorInfo *output)
+{
+    return opencl::ClCos::validate(input, output);
+}
+
+void CLCosLayer::run()
+{
+    ITensorPack pack;
+    pack.add_tensor(TensorType::ACL_SRC, _impl->src);
+    pack.add_tensor(TensorType::ACL_DST, _impl->dst);
+    _impl->op->run(pack);
+}
+
 struct CLAbsLayer::Impl
 {
-    const ICLTensor               *src{ nullptr };
-    ICLTensor                     *dst{ nullptr };
+    const ICLTensor *              src{ nullptr };
+    ICLTensor *                    dst{ nullptr };
     std::unique_ptr<opencl::ClAbs> op{ nullptr };
 };
 
@@ -239,8 +280,8 @@ void CLAbsLayer::run()
 
 struct CLLogLayer::Impl
 {
-    const ICLTensor               *src{ nullptr };
-    ICLTensor                     *dst{ nullptr };
+    const ICLTensor *              src{ nullptr };
+    ICLTensor *                    dst{ nullptr };
     std::unique_ptr<opencl::ClLog> op{ nullptr };
 };
 
@@ -280,8 +321,8 @@ void CLLogLayer::run()
 
 struct CLRoundLayer::Impl
 {
-    const ICLTensor                 *src{ nullptr };
-    ICLTensor                       *dst{ nullptr };
+    const ICLTensor *                src{ nullptr };
+    ICLTensor *                      dst{ nullptr };
     std::unique_ptr<opencl::ClRound> op{ nullptr };
 };
 

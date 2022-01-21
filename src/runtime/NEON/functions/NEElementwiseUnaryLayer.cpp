@@ -80,5 +80,6 @@ template class NEElementwiseUnaryLayer<ElementWiseUnary::LOG>;
 template class NEElementwiseUnaryLayer<ElementWiseUnary::ABS>;
 template class NEElementwiseUnaryLayer<ElementWiseUnary::ROUND>;
 template class NEElementwiseUnaryLayer<ElementWiseUnary::SIN>;
+template class NEElementwiseUnaryLayer<ElementWiseUnary::COS>;
 
 } // namespace arm_compute

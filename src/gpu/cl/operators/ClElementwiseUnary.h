@@ -34,7 +34,7 @@ namespace opencl
 /** Basic function to perform inverse square root on an src tensor. */
 class ClRsqrt : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.
@@ -54,7 +54,7 @@ public:
 /** Basic function to perform exponential on an src tensor. */
 class ClExp : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.
@@ -74,7 +74,7 @@ public:
 /** Basic function to negate an src tensor. */
 class ClNeg : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.
@@ -94,7 +94,7 @@ public:
 /** Basic function to calculate sine of an src tensor. */
 class ClSin : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.
@@ -111,10 +111,30 @@ public:
     static Status validate(const ITensorInfo *src, const ITensorInfo *dst);
 };
 
+/** Basic function to calculate cosine of an src tensor. */
+class ClCos : public IClOperator
+{
+    public:
+    /** Initialize the function
+     *
+     * @param[in]  compile_context The compile context to be used.
+     * @param[in]  src             Source tensor info. Data types supported: F16/F32.
+     * @param[out] dst             Destination tensor info. Data types supported: same as @p src.
+     */
+    void configure(const ClCompileContext &compile_context, const ITensorInfo *src, ITensorInfo *dst);
+    /** Static function to check if given info will lead to a valid configuration
+     *
+     * Similar to @ref ClCos::configure()
+     *
+     * @return a status
+     */
+    static Status validate(const ITensorInfo *src, const ITensorInfo *dst);
+};
+
 /** Basic function to perform elementwise log on an src tensor. */
 class ClLog : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.
@@ -134,7 +154,7 @@ public:
 /** Basic function to get the absolute value of an src tensor. */
 class ClAbs : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.
@@ -154,7 +174,7 @@ public:
 /** Basic function to get the round (to the nearest even) value of an src tensor. */
 class ClRound : public IClOperator
 {
-public:
+    public:
     /** Initialize the function
      *
      * @param[in]  compile_context The compile context to be used.

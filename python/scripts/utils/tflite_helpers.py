@@ -155,7 +155,7 @@ _TFLITE_TO_ACL = {
     "REVERSE_V2": "Reverse",  # 105
     "ADD_N": "Add",  # 106
     "GATHER_ND": "Gather",  # 107
-    # "COS" :  "Unsupported",                              #108
+    "COS" :  "ElementwiseUnary",                          #108
     # "WHERE" :  "Unsupported",                            #109
     "RANK": "",  # 110
     "ELU": "Activation",  # 111
